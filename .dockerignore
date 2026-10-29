@@ -1,0 +1,9 @@
+.git
+.env
+.env.*
+private/
+backups/
+job-applications/
+data/
+**/__pycache__/
+*.py[cod]

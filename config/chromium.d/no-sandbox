@@ -1,0 +1,5 @@
+# Chromium's own sandbox cannot start in this container (Docker seccomp/AppArmor
+# block unprivileged user namespaces; Debian ships no setuid chrome-sandbox).
+# Bind-mounted into /etc/chromium.d/ so every /usr/bin/chromium launch
+# (manual, Bot Desktop, Hermes use_real_profile) gets the flag automatically.
+export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --no-sandbox --disable-dev-shm-usage"

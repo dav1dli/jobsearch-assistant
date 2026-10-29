@@ -1,0 +1,48 @@
+name: jobsearch-assistant
+
+services:
+  job-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        HERMES_BASE_IMAGE: ${JOB_AGENT_BASE_IMAGE:-nousresearch/hermes-agent:v0.22.5-desktop@sha256:04f7a36d125bc3ebdef090cd5cf0cccaa74699e5a1a77c2965a4db437f24bf13}
+    image: jobsearch-assistant-hermes:v0.22.5-desktop
+    entrypoint: ["/opt/job-agent-entrypoint.sh"]
+    command: ["gateway", "run"]
+    working_dir: /workspace
+    environment:
+      HERMES_HOME: /opt/data
+      JOB_APPLICATION_HOME: /opt/data/job-applications
+      JOB_DOCS_PYTHON: /opt/job-docs-venv/bin/python
+      JOB_DOCS_SCRIPT: /opt/data/skills/linkedin-applications/scripts/application_docs.py
+      JOB_SEARCH_PREFERENCES_FILE: /workspace/job-search-preferences.yaml
+      HERMES_DASHBOARD: "1"
+      HERMES_DASHBOARD_HOST: "0.0.0.0"
+      HERMES_DASHBOARD_PORT: "9119"
+    volumes:
+      - job_agent_home:/opt/data
+      - ./hermes/instructions/JOB-AGENT.md:/workspace/AGENTS.md:ro
+      - ./skills/linkedin-applications:/opt/data/skills/linkedin-applications:ro
+      - ./config/chromium.d/no-sandbox:/etc/chromium.d/no-sandbox:ro
+      - type: bind
+        source: ./private/job-search-preferences.yaml
+        target: /workspace/job-search-preferences.yaml
+        read_only: true
+        bind:
+          create_host_path: false
+    networks: [job_egress]
+    ports:
+      - "9119:9119"
+    shm_size: 1gb
+    mem_limit: 4g
+    cpus: 2.0
+    pids_limit: 4096
+    restart: "on-failure:3"
+
+volumes:
+  job_agent_home:
+    name: jobsearch-assistant_job_agent_home
+
+networks:
+  job_egress:
