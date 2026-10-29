@@ -11,10 +11,9 @@ Options:
   * default model: claude-opus-5-5
   * Reasoning: medium
 * Terminal backend: local
-* Egress firewall: No
 * Message platforms: Telegram: Manual bot
-  * Bot: t.me/cemahshabadbot
-  * User: 628997725
+  * Bot: t.me/johnarmfield_bot
+  * User: 628***25
 * Search: DuckDuckGo
 
 
@@ -58,7 +57,7 @@ If the token is exposed, revoke it through BotFather and replace it in the Herme
 
 Bot Screen runs the remote browser/display on the Linux gateway, not on the Mac. This project pins the matching `v0.22.5-desktop` image, which includes the Linux display stack and headed Chromium. The matching non-desktop image does not include all Bot Screen system packages. The Compose service enables Hermes Dashboard on port `9119`; Desktop uses this authenticated dashboard connection, not the OpenAI-compatible API server on port `8642`.
 
-For Bot Screen configuration and the complete nuc2-to-macOS connection procedure, see [Standalone Deployment](DEPLOYMENT.md#hermes-desktop-and-bot-screen).
+For Bot Screen configuration and the complete Linux-to-macOS connection procedure, see [Standalone Deployment](DEPLOYMENT.md#hermes-desktop-and-bot-screen).
 
 ## Image version
 

@@ -1,6 +1,6 @@
 # Standalone Deployment
 
-This directory is a self-contained Hermes job-search deployment. Its Compose project builds the pinned Hermes v0.22.5-desktop image, mounts only the job policy and LinkedIn applications skill, stores Hermes state and employment documents in its own named volume, and connects the service only to its dedicated egress network. The dashboard is published only on nuc2's loopback interface for SSH-tunnel access; no service port is published to the LAN or internet.
+This directory is a self-contained Hermes job-search deployment. Its Compose project builds the pinned Hermes v0.22.5-desktop image, mounts only the job policy and LinkedIn applications skill, stores Hermes state and employment documents in its own named volume, and connects the service only to its dedicated egress network. The dashboard is published only on remote's loopback interface for SSH-tunnel access; no service port is published to the LAN or internet.
 
 ## Build and Setup
 
@@ -167,7 +167,7 @@ The first successful sign-in creates the Desktop session credential automaticall
 - If the session is lost after every restart, ensure `HERMES_DASHBOARD_BASIC_AUTH_SECRET` remains in the persistent Hermes `.env` file.
 - If the screen pane is unavailable over plain HTTP, check that Desktop is connected through the `127.0.0.1` SSH tunnel URL and that its local tunnel is still running.
 - A headed browser can make a site visible, but it does not bypass Cloudflare, CAPTCHAs, identity checks, or site safeguards. Stop and take over manually where required by the job workflow.
-- Never expose the dashboard directly to the public internet with only username/password authentication. For public access, use an approved OAuth/OIDC provider; for this nuc2 homelab, keep access on SSH or a trusted VPN.
+- Never expose the dashboard directly to the public internet with only username/password authentication. For public access, use an approved OAuth/OIDC provider; for this remote homelab, keep access on SSH or a trusted VPN.
 
 #### Browser startup issue
 The default browser - chromium - would not start from the desktop menu. Starting it from a terminal produces "No sandbox" error. Prevented by Docker security settings and AppArmor, Chromium cannot use its sandbox feature enabled by default from within the container. All browser based tasks will fail. Solution: use `no-sandbox` option.
